@@ -25,3 +25,11 @@ data/processed/*
 # IDEs
 .vscode/
 .idea/
+
+# Secrets (defensive)
+*.key
+*.pem
+*.crt
+*.pfx
+*.secret
+secrets/
