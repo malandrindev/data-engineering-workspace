@@ -1,18 +1,32 @@
-# SQL Foundations
+# SQL for Data Engineering
 
-This module covers core SQL concepts required for Data Engineering roles,
-focusing on analytical queries and performance awareness.
+This module documents core SQL patterns commonly used in
+analytical workloads, data pipelines, and performance-sensitive queries.
 
-## Topics
-- JOINs (INNER, LEFT)
-- Subqueries
-- Common Table Expressions (CTEs)
-- Window Functions
-- Basic performance considerations
+Rather than focusing on syntax alone, the emphasis is on understanding
+query behavior, trade-offs, and design decisions relevant to Data Engineering.
+
+---
+
+## Topics Covered
+
+- JOIN strategies and data grain considerations
+- Subqueries vs. Common Table Expressions (CTEs)
+- Window Functions for analytical queries
+- Aggregations without loss of row-level detail
+- Basic performance considerations and query readability
+
+---
 
 ## Goal
-Build strong SQL foundations for analytical and data pipeline workloads.
+
+Establish a solid and explicit understanding of SQL patterns that scale
+from exploratory analysis to production-grade data pipelines.
+
+---
 
 ## Scope
-This module uses a small synthetic schema designed to isolate and explain
-core SQL concepts with full control over data and relationships.
+
+This module uses a small synthetic schema designed to isolate and demonstrate
+core SQL concepts with full control over data volume, relationships,
+and query execution behavior.
