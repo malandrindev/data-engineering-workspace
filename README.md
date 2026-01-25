@@ -1,6 +1,14 @@
 # Data Engineering Workspace
 
-This repository represents my personal Data Engineering workspace, organized by learning stages and practical labs.
+This repository consolidates practical Data Engineering patterns,
+covering SQL analytics, data pipelines, orchestration, and analytical modeling.
+
+The focus is on reproducible, production-oriented approaches using synthetic data
+to represent real enterprise scenarios such as ERP systems, e-commerce platforms,
+and system integrations.
+
+This workspace is designed to document decision-making, trade-offs, and
+implementation patterns commonly encountered in Data Engineering roles.
 
 ---
 
@@ -16,27 +24,19 @@ Local development environment configured with:
 
 ---
 
-## Project Structure
+## Repository Structure
 
-- `00-labs` — isolated hands-on labs (databases, tooling, experiments)
-- `01-sql-foundations` — SQL fundamentals and performance
-- `02-etl-python` — ETL pipelines using Python
-- `03-orchestration` — workflow orchestration (e.g., Airflow)
-- `04-analytics-modeling` — analytical and dimensional modeling
-- `shared` — reusable utilities, templates, and docs
-- `archive` — legacy files and reference data
+- `00-labs` — isolated technical labs and tooling experiments
+- `01-sql-foundations` — core SQL analytical patterns and performance considerations
+- `02-etl-python` — ETL pipelines implemented in Python
+- `03-orchestration` — workflow orchestration and scheduling concepts
+- `04-analytics-modeling` — analytical and dimensional modeling patterns
+- `shared` — reusable utilities, SQL templates, and documentation
+- `archive` — legacy files and reference material
 
 ---
 
-## Progress Log
+## Notes
 
-### Day 0 — Environment Setup ✅
-Local Data Engineering environment configured using Docker Compose, PostgreSQL, VS Code and DBeaver.
-
-### Day 1: SQL foundations
-
-### Day 2: ETL pipeline
-
-### Day 3: Orchestration
-
-### Day 4: Modeling
+All datasets are synthetic and intentionally small to allow full control over
+data relationships, query behavior, and performance characteristics.
