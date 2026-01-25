@@ -1,0 +1,11 @@
+-- Performance fundamentals (PostgreSQL)
+-- This file documents practical performance considerations for analytical queries,
+-- including access paths, execution plans, and common trade-offs.
+--
+-- Topics covered:
+-- - Index usage and access strategies
+-- - EXPLAIN and EXPLAIN ANALYZE interpretation
+-- - Common performance pitfalls in analytical workloads
+-- - When optimization is justified versus premature
+--
+-- Status: scaffolded (content added incrementally)
