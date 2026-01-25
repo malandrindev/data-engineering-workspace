@@ -1,6 +1,6 @@
 -- Pre-aggregate customer spend using a CTE
--- Makes the query easier to read and maintain
--- Preferred over nested subqueries in production
+-- Improves query readability and logical separation of concerns
+-- Commonly preferred over deeply nested subqueries in production workloads
 WITH customer_spend AS (
   SELECT
     o.customer_id,

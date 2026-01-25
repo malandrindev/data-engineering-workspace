@@ -1,8 +1,7 @@
 -- =========================================================
 -- INNER JOIN
--- Purpose: return only records where matching rows exist
--- Meaning: customers that actually placed orders
--- Typical use case: sales analysis, fact tables
+-- Returns only records with matching keys on both sides
+-- Typically used when analyzing confirmed transactional activity
 -- =========================================================
 SELECT
     o.order_id,
@@ -16,9 +15,8 @@ INNER JOIN products p ON o.product_id = p.product_id;
 
 -- =========================================================
 -- LEFT JOIN
--- Purpose: preserve all rows from the left table
--- Meaning: identify customers with or without orders
--- Typical use case: churn analysis, completeness checks
+-- Preserves all records from the left table regardless of matches
+-- Useful to identify missing relationships or incomplete activity
 -- =========================================================
 SELECT
     c.name,
@@ -27,10 +25,9 @@ FROM customers c
 LEFT JOIN orders o ON c.customer_id = o.customer_id;
 
 -- =========================================================
--- AGGREGATION with JOIN
--- Purpose: calculate total spend per customer
--- Meaning: change data grain from order-level to customer-level
--- Typical use case: customer analytics, revenue reporting
+-- AGGREGATION WITH JOIN
+-- Changes data grain from order-level to customer-level
+-- Common pattern for analytical and reporting workloads
 -- =========================================================
 SELECT
     c.name,

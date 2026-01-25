@@ -1,6 +1,6 @@
--- Compare each order value against the global average order value
--- Inner query returns a single number (global aggregate)
--- Useful when you need a benchmark or threshold for comparison
+-- Compare each order value against a global average benchmark
+-- Scalar subquery used to compute a single reference metric
+-- Useful when applying relative thresholds or outlier detection
 SELECT DISTINCT c.name
 FROM customers c
 JOIN orders o ON c.customer_id = o.customer_id
@@ -13,9 +13,8 @@ WHERE (o.quantity * p.price) >
       );
 
 
--- Calculate total spent per customer
--- Correlated subquery runs once per customer
--- Clear to read, but can be slow on large tables
+-- Calculate total spend per customer using a correlated subquery
+-- Evaluated once per outer row, readable but potentially expensive at scale
 SELECT
   c.name,
   (
@@ -27,9 +26,8 @@ SELECT
 FROM customers c;
 
 
--- Pre-aggregate customer spend
--- Subquery works like a temp table (derived table)
--- Makes it easier to filter after aggregation
+-- Pre-aggregate customer spend using a derived table
+-- Acts as an explicit intermediate result set for post-aggregation filtering
 SELECT
   t.customer_id,
   t.total_spent
