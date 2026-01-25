@@ -1,11 +1,9 @@
-
 /* ============================================================
    WINDOW FUNCTIONS — AGGREGATION WITHOUT COLLAPSING ROWS
    ============================================================ */
 
--- Calculate total spend per customer without collapsing rows
--- Window function keeps row-level detail
--- Useful for analytics, reporting and dashboards
+-- Aggregate metrics at the customer level while preserving row-level detail
+-- Common pattern for analytical queries where granularity must be retained
 SELECT
   o.order_id,
   c.name AS customer_name,
@@ -21,8 +19,8 @@ JOIN products p ON o.product_id = p.product_id;
    WINDOW FUNCTIONS — ORDERING & SEQUENCING
    ============================================================ */
 
--- Assign a sequential number to each order per customer
--- Useful for churn analysis, lifecycle tracking, first/last events
+-- Generate an ordered sequence of events per customer
+-- Useful for lifecycle analysis and event-based processing
 SELECT
   c.name,
   o.order_id,
@@ -42,9 +40,7 @@ JOIN products p ON o.product_id = p.product_id;
    ============================================================ */
 
 -- Rank customers by total spend
--- Ranking is applied after aggregation to avoid row duplication
--- RANK skips positions when there are ties
--- Useful when relative position matters more than sequence
+-- Applied after aggregation to avoid row multiplication
 WITH customer_spend AS (
   SELECT
     o.customer_id,
@@ -63,9 +59,8 @@ FROM customer_spend cs
 JOIN customers c ON cs.customer_id = c.customer_id;
 
 
--- Dense ranking of customers by total spend
--- Keeps ranking continuous even when there are ties
--- Preferred for top-N analytics
+-- Dense ranking variant for top-N style analytics
+-- Preserves continuous ranking when ties exist
 WITH customer_spend AS (
   SELECT
     o.customer_id,
@@ -88,9 +83,8 @@ JOIN customers c ON cs.customer_id = c.customer_id;
    WINDOW FUNCTIONS — TEMPORAL ANALYSIS (LAG / LEAD)
    ============================================================ */
 
--- Compare current order value with the previous order
--- LAG allows temporal comparison without self-joins
--- Common in behavior and trend analysis
+-- Compare each event with the previous one in the sequence
+-- Avoids self-joins while enabling temporal analysis
 SELECT
   c.name AS customer_name,
   o.order_id,
@@ -105,9 +99,8 @@ JOIN customers c ON o.customer_id = c.customer_id
 JOIN products p ON o.product_id = p.product_id;
 
 
--- Compare current order with the next one
--- LEAD enables forward-looking analysis
--- Useful for churn and lifecycle modeling
+-- Forward-looking comparison using LEAD
+-- Commonly used for churn and behavior modeling
 SELECT
   c.name AS customer_name,
   o.order_id,
@@ -122,10 +115,8 @@ JOIN customers c ON o.customer_id = c.customer_id
 JOIN products p ON o.product_id = p.product_id;
 
 
--- Compare current order value with the previous order of the same customer
--- This pattern is used to detect growth or decline between consecutive events
--- A positive delta means the customer increased spending
--- A NULL previous value indicates the first purchase
+-- Calculate delta between consecutive events
+-- Enables trend detection across a customer timeline
 SELECT
   c.name AS customer_name,
   o.order_date,
@@ -144,9 +135,8 @@ JOIN customers c ON o.customer_id = c.customer_id
 JOIN products p ON o.product_id = p.product_id;
 
 
--- Classify each order as first or repeat purchase
--- LAG returns NULL when there is no previous order for the customer
--- This is commonly used in lifecycle and churn analysis
+-- Classify events based on purchase recurrence
+-- NULL from LAG indicates the first observed event
 SELECT
   c.name,
   o.order_date,
@@ -164,8 +154,8 @@ JOIN customers c ON o.customer_id = c.customer_id
 JOIN products p ON o.product_id = p.product_id;
 
 
--- Calculate the number of days between consecutive orders per customer
--- Useful to understand purchase frequency and customer engagement
+-- Measure time gaps between consecutive events
+-- Useful for frequency and engagement analysis
 SELECT
   c.name,
   o.order_date,
@@ -183,9 +173,8 @@ JOIN customers c ON o.customer_id = c.customer_id;
    WINDOW FUNCTIONS — CUMULATIVE METRICS
    ============================================================ */
 
--- Calculate cumulative spend per customer over time
--- Keeps row-level detail while building a running total
--- Preferred over subqueries or self-joins for analytical workloads
+-- Compute running totals using an explicit window frame
+-- Preferred for cumulative metrics in analytical workloads
 SELECT
   c.name,
   o.order_date,
