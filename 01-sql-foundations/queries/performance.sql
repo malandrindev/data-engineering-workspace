@@ -72,3 +72,53 @@ FROM orders o
 JOIN products p
     ON o.product_id = p.product_id
 WHERE o.order_date = DATE '2025-01-10';
+
+
+-- =========================================================
+-- Performance Analysis — Index on join key with low selectivity
+-- =========================================================
+-- Context:
+-- Aggregation grouped by product, requiring most rows from the orders table.
+-- An index on the join key is often considered for join operations.
+--
+-- Planner behavior:
+-- Due to low selectivity and high row coverage, the planner may ignore
+-- the index or choose a bitmap/seq scan instead.
+--
+-- Notes:
+-- Indexes on join keys do not automatically improve analytical queries.
+-- Full scans are often cheaper when most rows are required.
+-- =========================================================
+
+EXPLAIN ANALYZE
+SELECT
+    p.name,
+    SUM(o.quantity * p.price) AS total_amount
+FROM orders o
+JOIN products p
+    ON o.product_id = p.product_id
+GROUP BY p.name;
+
+
+-- =========================================================
+-- Performance Analysis — Index on low-cardinality column
+-- =========================================================
+-- Context:
+-- Aggregation on a low-cardinality column (status),
+-- where most rows share the same values.
+--
+-- Planner behavior:
+-- Despite the presence of an index, the planner prefers
+-- a sequential scan due to low selectivity and full row coverage.
+--
+-- Notes:
+-- Indexes on low-cardinality columns are rarely beneficial
+-- for analytical aggregations and may add unnecessary overhead.
+-- =========================================================
+
+EXPLAIN ANALYZE
+SELECT
+    status,
+    COUNT(*) AS total_orders
+FROM orders
+GROUP BY status;
